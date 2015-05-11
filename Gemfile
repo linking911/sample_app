@@ -22,6 +22,7 @@ group :test do
   gem 'poltergeist'
   gem 'selenium-webdriver', '~> 2.35.1'
   gem 'capybara', '>= 2.2.0'
+  gem 'factory_girl_rails', '4.2.1'
 end
 
 group :production do
