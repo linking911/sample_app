@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "UserPages", :type => :request do
-  describe "User pages" do
     subject {page}
     
     describe "index" do
@@ -29,7 +28,7 @@ RSpec.describe "UserPages", :type => :request do
       end
       
       describe "delete links" do
-        # µ÷ÓÃ¹¤³§´´½¨adminÓÃ»§
+        # ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½adminï¿½Ã»ï¿½
         let(:admin) { FactoryGirl.create(:admin) }
         before do
           sign_in admin
@@ -38,12 +37,12 @@ RSpec.describe "UserPages", :type => :request do
         
         it { should have_link("delete", href: user_path(User.first)) }
         it "should be able ot delete another user" do
-          # match: :first, ²»¹ÜÄÄ¸öÉ¾³ıÁ´½Ó£¬ µã»÷µÚÒ»¸ö¿´µ½µÄ¡£
+          # match: :first, ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½Ó£ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½
           expect do
             click_link("delete", match: :first)
           end.to change(User, :count).by(-1)
         end
-        # ²»Ó¦¸ÃÉ¾³ıadmin
+        # ï¿½ï¿½Ó¦ï¿½ï¿½É¾ï¿½ï¿½admin
         it { should_not have_link("delete", href: user_path(admin)) }
       end
       
@@ -95,11 +94,22 @@ RSpec.describe "UserPages", :type => :request do
     
     describe "profile page" do
       let(:user) { FactoryGirl.create(:user) }
+      # Í¨ï¿½ï¿½letï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Î¢ï¿½ï¿½
+      let!(:m1) { FactoryGirl.create(:micropost, user: user, content: "Foo") }
+      let!(:m2) { FactoryGirl.create(:micropost, user: user, content: "Bar") }
       
       before { visit user_path(user) }
       
       it { should have_content(user.name) }
       it { should have_title(user.name) }
+      
+      # ï¿½ï¿½ï¿½ï¿½ï¿½ProfileÒ³ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Î¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+      describe "microposts" do
+        it { should have_content(m1.content) }
+        it { should have_content(m2.content) }
+        it { should have_content(user.microposts.count) }
+      end
+      
     end
     
     
@@ -143,5 +153,4 @@ RSpec.describe "UserPages", :type => :request do
       end
     end
     
-  end
 end

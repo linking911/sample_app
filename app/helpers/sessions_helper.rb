@@ -1,21 +1,21 @@
 module SessionsHelper
   def sign_in(user)
     remember_token = User.new_remember_token
-    # ÒòÎª¾­³£ÒªÉèÖÃµ½20Äêºó£¬ Í¬cookies[:remember_token] = {value: remember_token, expires:20.years.from_now.utc}
+    # ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ãµï¿½20ï¿½ï¿½ï¿½ Í¬cookies[:remember_token] = {value: remember_token, expires:20.years.from_now.utc}
     cookies.permanent[:remember_token] = remember_token
-    # Ê¹ÓÃupdate_attributeÌø¹ýÑéÖ¤±£´æµ¥Ò»Êý¾Ý
+    # Ê¹ï¿½ï¿½update_attributeï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½æµ¥Ò»ï¿½ï¿½ï¿½
     user.update_attribute(:remember_token, User.encrypt(remember_token))
     self.current_user = user
   end
   
-  # Accessor·½·¨
+  # Accessorï¿½ï¿½ï¿½ï¿½
   def current_user=(user)
     @current_user = user
   end
   
   def current_user
     remember_token = User.encrypt(cookies[:remember_token])
-    # Èç¹û´æÔÚ£¬ ²»ÓÃÕÒ
+    # ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     @current_user ||= User.find_by(remember_token: remember_token)
   end
   
@@ -41,5 +41,16 @@ module SessionsHelper
   def store_location
     session[:return_to] = request.fullpath
   end
+  
+  def signed_in_user
+    # ï¿½ï¿½Í¬ï¿½Ú£ï¿½ flash[:notice]="Please sign in."
+    # flash[:notice], flash[:success], flash[:error]
+    # redirect_to signin_url, notice: "Please sign in." unless signin?
+    unless signin?
+      store_location
+      redirect_to signin_url, notice: "Please sign in."
+    end
+  end
+
   
 end

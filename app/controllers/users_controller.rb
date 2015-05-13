@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :signed_in_user, only: [:index, :edit, :update, :destroy]
   before_action :correct_user, only:[:edit, :update]
-  # ÏÞÖÆÖ»ÓÐ¹ÜÀíÔ±²ÅÄÜ·ÃÎÊdestroy
+  # ï¿½ï¿½ï¿½ï¿½Ö»ï¿½Ð¹ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½Ü·ï¿½ï¿½ï¿½destroy
   before_action :admin_user, only: :destroy
   
   def index
@@ -27,6 +27,7 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
   
   def create
@@ -49,16 +50,6 @@ class UsersController < ApplicationController
   
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
-    end
-    
-    def signed_in_user
-      # µÈÍ¬ÓÚ£º flash[:notice]="Please sign in."
-      # flash[:notice], flash[:success], flash[:error]
-      # redirect_to signin_url, notice: "Please sign in." unless signin?
-      unless signin?
-        store_location
-        redirect_to signin_url, notice: "Please sign in."
-      end
     end
     
     def correct_user

@@ -28,5 +28,14 @@ namespace :db do
         password_confirmation: password
       )
     end
+    
+    # 为6个用户生成微博
+    users = User.all(limit: 6)
+    50.times do 
+      # 生成实例文字
+      content = Faker::Lorem.sentence(5)
+      users.each { |user| user.microposts.create!(content: content) }
+    end
+    
   end
 end

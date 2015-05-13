@@ -76,10 +76,10 @@ RSpec.describe "AuthenticationPages", :type => :request do
         end
         
         describe "submitting to the update action" do
-          # patch ·¢ÆðPATCHÇëÇó
+          # patch ï¿½ï¿½ï¿½ï¿½PATCHï¿½ï¿½ï¿½ï¿½
           before { patch user_path(user) }
           
-          # ·¢Æð¾ßÌåÇëÇóÊ±£¬ÐèÒª´¦Àí¸üµ×²ãµÄresponeÏìÓ¦
+          # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½responeï¿½ï¿½Ó¦
           specify { expect(response).to redirect_to(signin_path) }
         end
         
@@ -103,6 +103,18 @@ RSpec.describe "AuthenticationPages", :type => :request do
           it "should render the desired protected page" do
             expect(page).to have_title("Edit user")
           end
+        end
+      end
+      
+      describe "in the Microposts contoller" do
+        describe "submitting to the create action" do
+          before { post microposts_path }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
+        
+        describe "submitting to the destroy action" do
+          before { delete micropost_path(FactoryGirl.create(:micropost)) }
+          specify { expect(response).to redirect_to(signin_path) }
         end
       end
       
